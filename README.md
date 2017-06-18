@@ -39,7 +39,7 @@ functionality including adding a note, removing a note, editing a note, song con
  illuminates the currently playing notes yellow for the beat the view is currently at. The top 
  half is a "Note Map", which renders the notes for a song that a visible by the view at the 
  moment. Only rendering the visible beats means that the view only needs to request information 
- about those beats and**NOT**the whole song. This increases performance dramatically. In 
+ about those beats and **NOT** the whole song. This increases performance dramatically. In 
  addition, the Visual View is currently the only view which reacts to key presses. When a user 
  presses the left or right arrows the view will move back or forward one beat, respectively.
 
