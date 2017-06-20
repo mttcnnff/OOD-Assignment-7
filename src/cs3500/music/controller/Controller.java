@@ -1,20 +1,62 @@
 package cs3500.music.controller;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
 import cs3500.music.model.IPlayerModel;
 import cs3500.music.view.IView;
-import cs3500.music.view.visualview.VisualView;
+import cs3500.music.view.IVisualView;
 
 /**
  * Basic controller class used for moving current beat up and down only.
  */
-public class Controller {
+public class Controller implements IController {
   private IPlayerModel model;
-  private IView view;
+  private IVisualView view;
   private Integer currentBeat;
+  private Boolean isPlaying;
+
+  private Runnable togglePlay = () -> {
+    long tempoMillis = this.model.getTempo() / 1000;
+    int tempoNanos = (this.model.getTempo() % 1000) * 1000;
+    int songLength = this.model.getLength();
+    isPlaying = !isPlaying;
+    while (isPlaying && currentBeat != songLength) {
+      try {
+        currentBeat++;
+        view.refresh(currentBeat);
+        Thread.sleep((this.model.getTempo()/1000)-3);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+    if (currentBeat == songLength) {
+      isPlaying = !isPlaying;
+    }
+  };
+  private Runnable moveRight = () -> {
+    if (currentBeat < this.model.getLength()) {
+      currentBeat++;
+    }
+    view.refresh(currentBeat);
+  };
+  private Runnable moveLeft = () -> {
+    if (currentBeat > 0) {
+      currentBeat--;
+    }
+    view.refresh(currentBeat);
+  };
+  private Runnable jumpToEnd = () -> {
+    currentBeat = this.model.getLength();
+    view.refresh(currentBeat);
+  };
+  private Runnable jumpToStart = () -> {
+    currentBeat = 0;
+    view.refresh(currentBeat);
+  };
+
 
   /**
    * Constructor for controller.
@@ -31,29 +73,53 @@ public class Controller {
    * @param v view for this controller.
    */
   public void setView(IView v) {
-    view = v;
+    view = (IVisualView)v;
     currentBeat = 0;
+    isPlaying = false;
     configureKeyBoardListener();
+    configureMouseListener();
+  }
+
+  @Override
+  public void start() {
+    view.makeVisible();
   }
 
   /**
    * Private method to increment current beat up by one and refresh the view.
    */
   private void moveRight() {
-    if (currentBeat < this.model.getLength() - 1) {
-      currentBeat++;
+    if (!isPlaying) {
+      new Thread(this.moveRight).start();
     }
-    view.refresh(currentBeat);
   }
 
   /**
    * Private method to increment current beat down by one and refresh the view.
    */
   private void moveLeft() {
-    if (currentBeat > 0) {
-      currentBeat--;
+    if (!isPlaying) {
+      new Thread(this.moveLeft).start();
     }
-    view.refresh(currentBeat);
+  }
+
+  /**
+   * Private method to toggle play feature.
+   */
+  private void togglePlay() {
+    new Thread(this.togglePlay).start();
+  }
+
+  private void leftMouseClick() {
+    System.out.println("Left Mouse Clicked.");
+  }
+
+  private void jumpToStart() {
+    new Thread(this.jumpToStart).start();
+  }
+
+  private void jumpToEnd() {
+    new Thread(this.jumpToEnd).start();
   }
 
   /**
@@ -65,20 +131,34 @@ public class Controller {
    */
   private void configureKeyBoardListener() {
     Map<Character, Runnable> keyTypes = new HashMap<Character, Runnable>();
-    Map<Integer, Runnable> keyPresses = new HashMap<Integer, Runnable>();
+    Map<Integer, Runnable> keyPresses = new HashMap<>();
     Map<Integer, Runnable> keyReleases = new HashMap<Integer, Runnable>();
 
     keyPresses.put(KeyEvent.VK_RIGHT, this::moveRight);
     keyPresses.put(KeyEvent.VK_LEFT, this::moveLeft);
+    keyPresses.put(KeyEvent.VK_SPACE, this::togglePlay);
+    keyPresses.put(KeyEvent.VK_HOME, this::jumpToStart);
+    keyPresses.put(KeyEvent.VK_END, this::jumpToEnd);
 
     KeyboardListener kbd = new KeyboardListener();
     kbd.setKeyTypedMap(keyTypes);
     kbd.setKeyPressedMap(keyPresses);
     kbd.setKeyReleasedMap(keyReleases);
 
-    if (view instanceof VisualView) {
-      ((VisualView) view).addKeyListener(kbd);
-    }
+    view.addKeyListener(kbd);
   }
+
+  private void configureMouseListener() {
+    Map<Integer, Runnable> mouseClicks = new HashMap<>();
+
+    mouseClicks.put(MouseEvent.BUTTON1, this::leftMouseClick);
+
+    ClickListener clk = new ClickListener();
+    clk.setMouseClickedMap(mouseClicks);
+
+    view.addMouseListener(clk);
+
+  }
+
 
 }

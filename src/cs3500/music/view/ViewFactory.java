@@ -30,6 +30,8 @@ public class ViewFactory {
         return new VisualView(model);
       case "midi":
         return new AudibleView(model);
+      case "composite":
+        return new CompositeView(model);
       default:
         throw new IllegalArgumentException("Invalid View requested: " + type + " doesn't exist.");
     }

@@ -1,6 +1,8 @@
 package cs3500.music;
 
 import cs3500.music.controller.Controller;
+import cs3500.music.controller.ControllerFactory;
+import cs3500.music.controller.IController;
 import cs3500.music.model.IPlayerModel;
 import cs3500.music.model.PlayerModel;
 import cs3500.music.model.PlayerModelReadOnly;
@@ -20,15 +22,21 @@ public class MusicEditor {
    */
   public static void main(String[] args) {
     IPlayerModel model = new PlayerModel(4);
-    if (args.length != 2) {
-      System.out.println("Wrong number of arguments. Proper argument format: [filename.txt] " +
-              "[desired view]");
-      return;
-    }
-    model.readInSong(args[0]);
-    Controller controller = new Controller(model);
-    IView consoleView = ViewFactory.makeView(args[1], new PlayerModelReadOnly(model));
+//    if (args.length != 2) {
+//      System.out.println("Wrong number of arguments. Proper argument format: [filename.txt] " +
+//              "[desired view]");
+//      return;
+//    }
+//    model.readInSong(args[0]);
+//    Controller controller = new Controller(model);
+//    IView consoleView = ViewFactory.makeView(args[1], new PlayerModelReadOnly(model));
+//    controller.setView(consoleView);
+//    consoleView.makeVisible();
+
+    model.readInSong("df-ttfaf.txt");
+    IController controller = ControllerFactory.makeController("composite", model);
+    IView consoleView = ViewFactory.makeView("composite", new PlayerModelReadOnly(model));
     controller.setView(consoleView);
-    consoleView.makeVisible();
+    controller.start();
   }
 }

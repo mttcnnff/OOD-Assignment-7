@@ -1,18 +1,15 @@
 package cs3500.music.view.visualview;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.geom.Line2D;
 import java.util.TreeMap;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.util.List;
-import java.awt.Font;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import cs3500.music.model.IPlayerModelReadOnly;
 import cs3500.music.util.Utils;
+import javafx.scene.control.ScrollBar;
 
 /**
  * Class representation of Note Map Panel.
@@ -24,6 +21,7 @@ public class NoteMapPanel extends JPanel {
   private IPlayerModelReadOnly model;
   private Integer currBeat;
   private BasicStroke lineStroke;
+  private Line2D redLine;
 
   /**
    * Constructor for Note Map Panel
@@ -34,8 +32,9 @@ public class NoteMapPanel extends JPanel {
     this.setBackground(Color.white);
     this.model = model;
     this.currBeat = 0;
+    this.redLine = new Line2D.Double();
     this.lineStroke = new BasicStroke(3);
-    this.setPreferredSize(new Dimension(this.model.getLength() * 25,
+    this.setPreferredSize(new Dimension(50 + (this.model.getLength() * 25),
             30 + this.model.getToneRange().size() * 30));
   }
 
@@ -47,6 +46,7 @@ public class NoteMapPanel extends JPanel {
    */
   void refresh(Integer currBeat) {
     this.currBeat = currBeat;
+//    System.out.println(this.getLocationOnScreen());
   }
 
   /**
@@ -101,7 +101,9 @@ public class NoteMapPanel extends JPanel {
     g2d.setColor(Color.red);
     g2d.setStroke(this.lineStroke);
 
-    g2d.drawLine(40 + (this.currBeat * 25), 25, 40 + this.currBeat * 25,
+
+    redLine.setLine(40 + (this.currBeat * 25), 25, 40 + this.currBeat * 25,
             25 + toneRange.size() * 30);
+    g2d.draw(redLine);
   }
 }
