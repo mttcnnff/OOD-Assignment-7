@@ -1,6 +1,7 @@
 package cs3500.music.view.visualview;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.List;
 import java.awt.BasicStroke;
@@ -59,6 +60,23 @@ public class PianoPanel extends JPanel {
 
   void refresh(Integer currBeat) {
     this.currBeat = currBeat;
+  }
+
+  public Integer getKeyAtXY(int x, int y) {
+    Integer result = null;
+    for (Integer tone : this.whiteKeys.keySet()) {
+      if (this.whiteKeys.get(tone).contains(x, y)) {
+        result = tone;
+      }
+    }
+
+    for (Integer tone : this.blackKeys.keySet()) {
+      if (this.blackKeys.get(tone).contains(x, y)) {
+        result = tone;
+      }
+    }
+
+    return result;
   }
 
   @Override

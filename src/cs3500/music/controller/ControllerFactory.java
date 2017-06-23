@@ -12,11 +12,11 @@ public class ControllerFactory {
       case "console":
         return new BasicController(model);
       case "visual":
-        return new Controller(model);
+        return new VisualController(model);
       case "midi":
         return new BasicController(model);
       case "composite":
-        return new Controller(model);
+        return new SyncedController(model);
       default:
         throw new IllegalArgumentException("Invalid View: " + viewType + " doesn't exist.");
     }

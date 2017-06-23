@@ -9,8 +9,8 @@ import cs3500.music.model.IPlayerModel;
 import cs3500.music.view.IView;
 
 public class BasicController implements IController {
-  private IPlayerModel model;
-  private IView view;
+  protected IPlayerModel model;
+  protected IView view;
 
   /**
    * Constructor for controller.
@@ -32,7 +32,7 @@ public class BasicController implements IController {
 
   @Override
   public void start() {
-    this.view.makeVisible();
+    this.view.start();
   }
 
 

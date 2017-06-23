@@ -22,21 +22,8 @@ public class TextualView implements IView {
     this.model = model;
   }
 
-  /**
-   * Initially called when view is created.
-   */
   @Override
-  public void makeVisible() {
-    this.refresh(0);
-  }
-
-  /**
-   * Displays this song in the console.
-   *
-   * @param beat given beat (not used for this view).
-   */
-  @Override
-  public void refresh(Integer beat) {
+  public void start() {
     System.out.println(this.getText());
   }
 

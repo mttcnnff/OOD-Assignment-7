@@ -17,8 +17,8 @@ import cs3500.music.model.PlayerModelReadOnly;
 import cs3500.music.notes.INote;
 import cs3500.music.notes.Note;
 import cs3500.music.pitch.Pitch;
-import cs3500.music.view.AudibleView;
 import cs3500.music.view.IView;
+import cs3500.music.view.SequencerView;
 
 /**
  * Tests MIDI View to make sure it is sending proper messages.
@@ -39,8 +39,8 @@ public class MIDITests {
     for (INote note : notes) {
       model.addNote(0, note);
     }
-    IView audibleView = new AudibleView(new PlayerModelReadOnly(model), mockDevice);
-    audibleView.refresh(0);
+    IView audibleView = new SequencerView(mockDevice, new PlayerModelReadOnly(model));
+    audibleView.start();
     ArrayList<ShortMessage> log = mockDevice.getLog();
 
     for (int i = 0; i < log.size(); i++) {
@@ -58,9 +58,9 @@ public class MIDITests {
     IPlayerModel model = new PlayerModel(4);
     MockMidiDevice mockDevice = new MockMidiDevice();
     model.readInSong("mary-little-lamb.txt");
-    IView audibleView = new AudibleView(new PlayerModelReadOnly(model), mockDevice);
+    IView audibleView = new SequencerView(mockDevice, new PlayerModelReadOnly(model));
 
-    audibleView.refresh(0);
+    audibleView.start();
     ArrayList<ShortMessage> log = mockDevice.getLog();
     StringBuilder logString = new StringBuilder();
 

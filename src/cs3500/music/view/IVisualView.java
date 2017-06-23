@@ -9,4 +9,8 @@ public interface IVisualView extends IView {
 
   void addMouseListener(MouseListener l);
 
+  void refresh(Integer beat);
+
+  Integer getKeyAtXY(int x, int y);
+
 }

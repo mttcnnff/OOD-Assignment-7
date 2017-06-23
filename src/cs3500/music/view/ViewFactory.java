@@ -29,7 +29,7 @@ public class ViewFactory {
       case "visual":
         return new VisualView(model);
       case "midi":
-        return new AudibleView(model);
+        return new SequencerView(model);
       case "composite":
         return new CompositeView(model);
       default:

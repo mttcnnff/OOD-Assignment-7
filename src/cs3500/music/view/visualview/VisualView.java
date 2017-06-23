@@ -4,6 +4,7 @@ package cs3500.music.view.visualview;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.MouseListener;
 
 import cs3500.music.controller.ClickListener;
 import cs3500.music.model.IPlayerModel;
@@ -18,8 +19,6 @@ public class VisualView extends JFrame implements IVisualView {
   private NoteMapPanel noteMapPanel;
   private JScrollPane noteMapScrollPanel;
   private Integer currBeat;
-
-
 
   /**
    * Constructor for visual view.
@@ -61,7 +60,7 @@ public class VisualView extends JFrame implements IVisualView {
    * Displays the visual view.
    */
   @Override
-  public void makeVisible() {
+  public void start() {
     this.setVisible(true);
     this.refresh(0);
   }
@@ -91,4 +90,15 @@ public class VisualView extends JFrame implements IVisualView {
     this.repaint();
   }
 
+  public void addMouseListener(MouseListener l) {
+    this.pianoPanel.addMouseListener(l);
+    this.noteMapPanel.addMouseListener(l);
+  }
+
+  public Integer getKeyAtXY(int x, int y) {
+    return this.pianoPanel.getKeyAtXY(x, y);
+  }
+
 }
+
+

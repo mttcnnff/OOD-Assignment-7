@@ -18,6 +18,8 @@ import javafx.scene.control.ScrollBar;
  */
 public class NoteMapPanel extends JPanel {
 
+  private double VERTICAL_SCALE_FACTOR = .5;
+
   private IPlayerModelReadOnly model;
   private Integer currBeat;
   private BasicStroke lineStroke;
@@ -34,7 +36,7 @@ public class NoteMapPanel extends JPanel {
     this.currBeat = 0;
     this.redLine = new Line2D.Double();
     this.lineStroke = new BasicStroke(3);
-    this.setPreferredSize(new Dimension(50 + (this.model.getLength() * 25),
+    this.setPreferredSize(new Dimension(90 + (this.model.getLength() * 25),
             30 + this.model.getToneRange().size() * 30));
   }
 
@@ -56,6 +58,8 @@ public class NoteMapPanel extends JPanel {
    */
   @Override
   public void paintComponent(Graphics g) {
+    this.setPreferredSize(new Dimension(90 + (this.model.getLength() * 25),
+            30 + this.model.getToneRange().size() * 30));
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
     g2d.setFont(new Font("default", Font.BOLD, 16));

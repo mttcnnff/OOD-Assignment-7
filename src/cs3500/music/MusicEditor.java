@@ -1,6 +1,5 @@
 package cs3500.music;
 
-import cs3500.music.controller.Controller;
 import cs3500.music.controller.ControllerFactory;
 import cs3500.music.controller.IController;
 import cs3500.music.model.IPlayerModel;
@@ -28,15 +27,21 @@ public class MusicEditor {
 //      return;
 //    }
 //    model.readInSong(args[0]);
-//    Controller controller = new Controller(model);
+//    VisualController controller = new VisualController(model);
 //    IView consoleView = ViewFactory.makeView(args[1], new PlayerModelReadOnly(model));
 //    controller.setView(consoleView);
 //    consoleView.makeVisible();
 
-    model.readInSong("df-ttfaf.txt");
-    IController controller = ControllerFactory.makeController("composite", model);
-    IView consoleView = ViewFactory.makeView("composite", new PlayerModelReadOnly(model));
+    model.readInSong("mary-little-lamb.txt");
+    IController controller = ControllerFactory.makeController("midi", model);
+    IView consoleView = ViewFactory.makeView("midi", new PlayerModelReadOnly(model));
     controller.setView(consoleView);
-    controller.start();
+    consoleView.start();
+
+//    SequencerView seqView = new SequencerView(new PlayerModelReadOnly(model));
+//    seqView.start();
+
+//    controller.setView(consoleView);
+//    controller.start();
   }
 }

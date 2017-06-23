@@ -110,8 +110,8 @@ public class Note implements Comparable<INote>, INote {
     private IPitch pitch;
     private Integer octave = 0;
     private Integer instrument = 0;
-    private Integer duration = 0;
-    private Integer volume = 0;
+    private Integer duration = 1;
+    private Integer volume = 70;
 
     /**
      * Sets builders pitch.

@@ -12,30 +12,11 @@ import cs3500.music.view.IVisualView;
 /**
  * Basic controller class used for moving current beat up and down only.
  */
-public class Controller implements IController {
+public class VisualController implements IController {
   private IPlayerModel model;
   private IVisualView view;
   private Integer currentBeat;
-  private Boolean isPlaying;
 
-  private Runnable togglePlay = () -> {
-    long tempoMillis = this.model.getTempo() / 1000;
-    int tempoNanos = (this.model.getTempo() % 1000) * 1000;
-    int songLength = this.model.getLength();
-    isPlaying = !isPlaying;
-    while (isPlaying && currentBeat != songLength) {
-      try {
-        currentBeat++;
-        view.refresh(currentBeat);
-        Thread.sleep((this.model.getTempo()/1000)-3);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    }
-    if (currentBeat == songLength) {
-      isPlaying = !isPlaying;
-    }
-  };
   private Runnable moveRight = () -> {
     if (currentBeat < this.model.getLength()) {
       currentBeat++;
@@ -63,8 +44,8 @@ public class Controller implements IController {
    *
    * @param m model this controller is for.
    */
-  public Controller(IPlayerModel m) {
-    model = m;
+  VisualController(IPlayerModel m) {
+    this.model = m;
   }
 
   /**
@@ -72,42 +53,30 @@ public class Controller implements IController {
    *
    * @param v view for this controller.
    */
+  @Override
   public void setView(IView v) {
     view = (IVisualView)v;
     currentBeat = 0;
-    isPlaying = false;
     configureKeyBoardListener();
-    configureMouseListener();
   }
 
   @Override
   public void start() {
-    view.makeVisible();
+    view.start();
   }
 
   /**
    * Private method to increment current beat up by one and refresh the view.
    */
   private void moveRight() {
-    if (!isPlaying) {
       new Thread(this.moveRight).start();
-    }
   }
 
   /**
    * Private method to increment current beat down by one and refresh the view.
    */
   private void moveLeft() {
-    if (!isPlaying) {
       new Thread(this.moveLeft).start();
-    }
-  }
-
-  /**
-   * Private method to toggle play feature.
-   */
-  private void togglePlay() {
-    new Thread(this.togglePlay).start();
   }
 
   private void leftMouseClick() {
@@ -115,11 +84,11 @@ public class Controller implements IController {
   }
 
   private void jumpToStart() {
-    new Thread(this.jumpToStart).start();
+      new Thread(this.jumpToStart).start();
   }
 
   private void jumpToEnd() {
-    new Thread(this.jumpToEnd).start();
+      new Thread(this.jumpToEnd).start();
   }
 
   /**
@@ -136,7 +105,6 @@ public class Controller implements IController {
 
     keyPresses.put(KeyEvent.VK_RIGHT, this::moveRight);
     keyPresses.put(KeyEvent.VK_LEFT, this::moveLeft);
-    keyPresses.put(KeyEvent.VK_SPACE, this::togglePlay);
     keyPresses.put(KeyEvent.VK_HOME, this::jumpToStart);
     keyPresses.put(KeyEvent.VK_END, this::jumpToEnd);
 
@@ -147,18 +115,5 @@ public class Controller implements IController {
 
     view.addKeyListener(kbd);
   }
-
-  private void configureMouseListener() {
-    Map<Integer, Runnable> mouseClicks = new HashMap<>();
-
-    mouseClicks.put(MouseEvent.BUTTON1, this::leftMouseClick);
-
-    ClickListener clk = new ClickListener();
-    clk.setMouseClickedMap(mouseClicks);
-
-    view.addMouseListener(clk);
-
-  }
-
 
 }
