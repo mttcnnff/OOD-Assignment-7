@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class ClickListener implements MouseListener {
 
-  private MouseEvent mouseEvent;
   private Map<Integer, Runnable> mouseClickedMap;
   private SyncedController controller;
 
@@ -22,8 +21,6 @@ public class ClickListener implements MouseListener {
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    this.mouseEvent = e;
-    Component c = e.getComponent();
     this.controller.setClickXY(e.getX(), e.getY());
     if (mouseClickedMap.containsKey(e.getButton())) {
       mouseClickedMap.get(e.getButton()).run();

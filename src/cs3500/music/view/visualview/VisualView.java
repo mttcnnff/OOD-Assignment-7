@@ -72,6 +72,9 @@ public class VisualView extends JFrame implements IVisualView {
    */
   @Override
   public void refresh(Integer beat) {
+    if (beat < 0 && beat > this.model.getLength()) {
+      throw new IllegalArgumentException("Invalid beat.");
+    }
     this.currBeat = beat;
 
     Integer currentRedlinePos = (40 + (this.currBeat * 25));
@@ -92,7 +95,6 @@ public class VisualView extends JFrame implements IVisualView {
 
   public void addMouseListener(MouseListener l) {
     this.pianoPanel.addMouseListener(l);
-    this.noteMapPanel.addMouseListener(l);
   }
 
   public Integer getKeyAtXY(int x, int y) {

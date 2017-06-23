@@ -18,7 +18,7 @@ import cs3500.music.mocks.MockMidiDevice;
 import cs3500.music.model.IPlayerModelReadOnly;
 import cs3500.music.notes.INote;
 
-public class SequencerView implements IView {
+public class SequencerView implements IView, IAudibleView {
 
   private IPlayerModelReadOnly model;
   private Sequencer sequencer;
@@ -70,22 +70,28 @@ public class SequencerView implements IView {
 
   }
 
+  @Override
   public void refresh(Integer beat) {
+    if (beat < 0 && beat > this.model.getLength()) {
+      throw new IllegalArgumentException("Invalid beat.");
+    }
     if (!this.sequencer.isRunning()) {
       this.currBeat = beat;
       this.sequencer.setTickPosition(this.currBeat * (sequencer.getTickLength()/this.model
               .getLength()));
-//      System.out.println("-----\n Current beat: " + this.currBeat);
-//      System.out.println("Current Tick: " + this.sequencer.getTickPosition());
     }
   }
 
+  @Override
   public void load() {
-    this.refresh(this.currBeat);
-    this.buildTrack();
+    if (!this.sequencer.isRunning()) {
+      this.refresh(this.currBeat);
+      this.buildTrack();
+    }
   }
 
-  void togglePlay() {
+  @Override
+  public void togglePlay() {
     if (!this.sequencer.isRunning()) {
       System.out.println("Playing!");
       this.sequencer.setTempoInMPQ(this.model.getTempo());
@@ -99,6 +105,7 @@ public class SequencerView implements IView {
     }
   }
 
+  @Override
   public int getBeat() {
     long ticksPerBeat = (sequencer.getTickLength()/this.model.getLength());
     //System.out.println("Current tick pos: " + this.sequencer.getTickPosition());
@@ -110,10 +117,12 @@ public class SequencerView implements IView {
 
   }
 
+  @Override
   public void setMetaEventListener(MetaEventListener l) {
     this.sequencer.addMetaEventListener(l);
   }
 
+  @Override
   public boolean isPlaying() {
     return this.sequencer.isRunning();
   }

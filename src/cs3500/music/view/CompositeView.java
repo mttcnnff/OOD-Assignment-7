@@ -8,28 +8,39 @@ import javax.sound.midi.MetaEventListener;
 import cs3500.music.model.IPlayerModelReadOnly;
 import cs3500.music.view.visualview.VisualView;
 
-public class CompositeView implements IVisualView, IView {
+public class CompositeView implements IVisualView, IAudibleView {
 
+  private IPlayerModelReadOnly model;
   private IVisualView gui;
   private SequencerView midi;
 
   public CompositeView(IPlayerModelReadOnly model) {
+    this.model = model;
     this.gui = new VisualView(model);
     this.midi = new SequencerView(model);
   }
 
   @Override
   public void refresh(Integer beat) {
+    if (beat < 0 || beat > this.model.getLength()) {
+      throw new IllegalArgumentException("Bad beat.");
+    }
     midi.refresh(beat);
     gui.refresh(midi.getBeat());
   }
 
-  public void reloadMidi() {
-    Integer beat = midi.getBeat();
-    this.midi.load();
-    this.midi.refresh(beat);
+  @Override
+  public void load() {
+    if (!this.midi.isPlaying()) {
+      Integer beat = midi.getBeat();
+      this.midi.load();
+      this.midi.refresh(beat);
+    } else {
+      throw new IllegalStateException("Can't load while playing");
+    }
   }
 
+  @Override
   public void togglePlay() {
     midi.togglePlay();
   }
@@ -56,7 +67,8 @@ public class CompositeView implements IVisualView, IView {
     gui.addMouseListener(l);
   }
 
-  public void addSequenceListener(MetaEventListener l) {
+  @Override
+  public void setMetaEventListener(MetaEventListener l) {
     midi.setMetaEventListener(l);
   }
 

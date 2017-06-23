@@ -5,8 +5,6 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.sound.midi.MetaEventListener;
-
 import cs3500.music.model.IPlayerModel;
 import cs3500.music.notes.Note;
 import cs3500.music.util.Utils;
@@ -123,7 +121,7 @@ public class SyncedController implements IController {
         this.model.addNote(this.currentBeat, new Note.Builder().pitch(Utils.integerToPitch(key))
                 .octave(Utils.integerToOctave(key)).build());
         this.moveRight.run();
-        this.view.reloadMidi();
+        this.view.load();
       }
     }
   }
@@ -166,7 +164,7 @@ public class SyncedController implements IController {
   }
 
   private void configureSequenceListener() {
-    view.addSequenceListener(meta -> {
+    view.setMetaEventListener(meta -> {
       if (meta.getType() == 47) {
         System.out.println("End of sing reach but not ending.");
       }
