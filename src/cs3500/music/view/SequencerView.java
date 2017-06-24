@@ -107,7 +107,6 @@ public class SequencerView implements IView, IAudibleView {
   @Override
   public void togglePlay() {
     if (!this.sequencer.isRunning()) {
-      System.out.println("Playing!");
       this.sequencer.setTempoInMPQ(this.model.getTempo());
       this.sequencer.start();
       this.sequencer.setTempoInMPQ(this.model.getTempo());
@@ -115,7 +114,6 @@ public class SequencerView implements IView, IAudibleView {
     } else {
       this.sequencer.stop();
       this.currBeat = this.getBeat();
-      System.out.println("Stopped at beat: " + this.currBeat);
     }
   }
 

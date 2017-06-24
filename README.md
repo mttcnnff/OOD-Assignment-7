@@ -6,6 +6,18 @@ controller to our model, as well as file read-in functionality. Given a properly
 document a model will be able to automatically read-in the specified contents into a full song. 
 The implementation details are specified below.
 
+## Operating Instructions
+After downloading the jar for this project navigate to the folder which contains it, make sure 
+the text files you'd like to read in as songs are in the same directory as the jar. Once there 
+type the following into the command line: `java -jar OOD-Assignment-7.jar [filename].txt [view 
+type]`
+
+ *Valid View Types Inputs*
+ 1. `console`
+ 2. `midi`
+ 3. `visual`
+ 4. `composite`
+
 ## The Model
 
 #### Interface
