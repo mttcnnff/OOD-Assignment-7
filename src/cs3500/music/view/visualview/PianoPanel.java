@@ -1,7 +1,6 @@
 package cs3500.music.view.visualview;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 import java.util.List;
 import java.awt.BasicStroke;
@@ -16,13 +15,21 @@ import javax.swing.JPanel;
 import cs3500.music.model.IPlayerModelReadOnly;
 import cs3500.music.util.Utils;
 
+/**
+ * Class representation of a piano panel. Displays a piano visually and lights up keys which are
+ * currently being played.
+ */
 public class PianoPanel extends JPanel {
 
   private Map<Integer, Rectangle> whiteKeys;
   private Map<Integer, Rectangle> blackKeys;
   private IPlayerModelReadOnly model;
-  Integer currBeat;
+  private Integer currBeat;
 
+  /**
+   * Piano Panel for viewing a piano in java swing for given model.
+   * @param model read only model for viewing on this piano panel.
+   */
   PianoPanel(IPlayerModelReadOnly model) {
     this.setBackground(Color.lightGray);
     this.model = model;
@@ -58,11 +65,21 @@ public class PianoPanel extends JPanel {
     }
   }
 
+  /**
+   * Refresh the piano view to view at the given beat, if not playing.
+   * @param currBeat beat to view piano at.
+   */
   void refresh(Integer currBeat) {
     this.currBeat = currBeat;
   }
 
-  public Integer getKeyAtXY(int x, int y) {
+  /**
+   * Get piano key in this view based on given xy.
+   * @param x given x coord.
+   * @param y given y coord.
+   * @return tone number for corresponding key at given xy.
+   */
+  Integer getKeyAtXY(int x, int y) {
     Integer result = null;
     for (Integer tone : this.whiteKeys.keySet()) {
       if (this.whiteKeys.get(tone).contains(x, y)) {
@@ -75,10 +92,13 @@ public class PianoPanel extends JPanel {
         result = tone;
       }
     }
-
     return result;
   }
 
+  /**
+   * Paints this panel in the view.
+   * @param g given graphics object.
+   */
   @Override
   public void paintComponent(Graphics g) {
     super.paintComponent(g);

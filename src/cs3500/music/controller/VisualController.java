@@ -1,7 +1,6 @@
 package cs3500.music.controller;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,31 +9,30 @@ import cs3500.music.view.IView;
 import cs3500.music.view.IVisualView;
 
 /**
- * Basic controller class used for moving current beat up and down only.
+ * Visual controller class used for moving current beat up and down only.
  */
 public class VisualController implements IController {
   private IPlayerModel model;
   private IVisualView view;
   private Integer currentBeat;
 
+  /**
+   * Lambda for incrementing currentBeat up one.
+   */
   private Runnable moveRight = () -> {
     if (currentBeat < this.model.getLength()) {
       currentBeat++;
     }
     view.refresh(currentBeat);
   };
+
+  /**
+   * Lambda for incrementing currentBeat down one.
+   */
   private Runnable moveLeft = () -> {
     if (currentBeat > 0) {
       currentBeat--;
     }
-    view.refresh(currentBeat);
-  };
-  private Runnable jumpToEnd = () -> {
-    currentBeat = this.model.getLength();
-    view.refresh(currentBeat);
-  };
-  private Runnable jumpToStart = () -> {
-    currentBeat = 0;
     view.refresh(currentBeat);
   };
 
@@ -47,11 +45,6 @@ public class VisualController implements IController {
     this.model = m;
   }
 
-  /**
-   * Sets the current view of this controller.
-   *
-   * @param v view for this controller.
-   */
   @Override
   public void setView(IView v) {
     view = (IVisualView)v;
@@ -78,14 +71,6 @@ public class VisualController implements IController {
       new Thread(this.moveLeft).start();
   }
 
-  private void jumpToStart() {
-      new Thread(this.jumpToStart).start();
-  }
-
-  private void jumpToEnd() {
-      new Thread(this.jumpToEnd).start();
-  }
-
   /**
    * Creates and sets a keyboard listener for the view
    * In effect it creates snippets of code as Runnable object, one for each time a key
@@ -100,8 +85,6 @@ public class VisualController implements IController {
 
     keyPresses.put(KeyEvent.VK_RIGHT, this::moveRight);
     keyPresses.put(KeyEvent.VK_LEFT, this::moveLeft);
-    keyPresses.put(KeyEvent.VK_HOME, this::jumpToStart);
-    keyPresses.put(KeyEvent.VK_END, this::jumpToEnd);
 
     KeyboardListener kbd = new KeyboardListener();
     kbd.setKeyTypedMap(keyTypes);

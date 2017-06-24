@@ -8,12 +8,21 @@ import javax.sound.midi.MetaEventListener;
 import cs3500.music.model.IPlayerModelReadOnly;
 import cs3500.music.view.visualview.VisualView;
 
+/**
+ * Class representation of a composite view which combines functionality of Visual View and
+ * Sequencer view. Allows people to view musical composition visually and listen to it
+ * simultaneously.
+ */
 public class CompositeView implements IVisualView, IAudibleView {
 
   private IPlayerModelReadOnly model;
   private IVisualView gui;
   private SequencerView midi;
 
+  /**
+   * Public constructor for composite view.
+   * @param model given model this view is representing.
+   */
   public CompositeView(IPlayerModelReadOnly model) {
     this.model = model;
     this.gui = new VisualView(model);
@@ -45,18 +54,6 @@ public class CompositeView implements IVisualView, IAudibleView {
     midi.togglePlay();
   }
 
-  public int getBeat() {
-    return this.midi.getBeat();
-  }
-
-  public boolean isPlaying() {
-    return this.midi.isPlaying();
-  }
-
-  public Integer getKeyAtXY(int x, int y) {
-    return this.gui.getKeyAtXY(x, y);
-  }
-
   @Override
   public void addKeyListener(KeyListener l) {
     gui.addKeyListener(l);
@@ -76,5 +73,20 @@ public class CompositeView implements IVisualView, IAudibleView {
   public void start() {
     this.gui.start();
     this.midi.load();
+  }
+
+  @Override
+  public int getBeat() {
+    return this.midi.getBeat();
+  }
+
+  @Override
+  public boolean isPlaying() {
+    return this.midi.isPlaying();
+  }
+
+  @Override
+  public Integer getKeyAtXY(int x, int y) {
+    return this.gui.getKeyAtXY(x, y);
   }
 }

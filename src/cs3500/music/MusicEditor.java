@@ -33,8 +33,8 @@ public class MusicEditor {
 //    consoleView.makeVisible();
 
     model.readInSong("mary-little-lamb.txt");
-    IController controller = ControllerFactory.makeController("composite", model);
-    IView consoleView = ViewFactory.makeView("composite", new PlayerModelReadOnly(model));
+    IController controller = ControllerFactory.makeController("visual", model);
+    IView consoleView = ViewFactory.makeView("visual", new PlayerModelReadOnly(model));
     controller.setView(consoleView);
     consoleView.start();
 

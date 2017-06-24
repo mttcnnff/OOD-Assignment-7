@@ -6,12 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
 
-import cs3500.music.controller.ClickListener;
-import cs3500.music.model.IPlayerModel;
 import cs3500.music.model.IPlayerModelReadOnly;
-import cs3500.music.view.IView;
 import cs3500.music.view.IVisualView;
 
+/**
+ * Class representation of visual view of music editor. Top half shows music sheet display,
+ * bottom half shows piano panel.
+ */
 public class VisualView extends JFrame implements IVisualView {
 
   private IPlayerModelReadOnly model;
@@ -22,7 +23,6 @@ public class VisualView extends JFrame implements IVisualView {
 
   /**
    * Constructor for visual view.
-   *
    * @param model given model this view is going to represent.
    */
   public VisualView(IPlayerModelReadOnly model) {
@@ -43,9 +43,6 @@ public class VisualView extends JFrame implements IVisualView {
     this.noteMapScrollPanel.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
     this.noteMapScrollPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     this.noteMapScrollPanel.setAutoscrolls(true);
-
-
-
     this.add(this.noteMapScrollPanel, BorderLayout.NORTH);
 
     //piano panel
@@ -66,8 +63,17 @@ public class VisualView extends JFrame implements IVisualView {
   }
 
   /**
+   * Tells if view is playing.
+   * @return false, the visual view is not aware if the song is playing or not. The method is
+   * here for convenience sake.
+   */
+  @Override
+  public boolean isPlaying() {
+    return false;
+  }
+
+  /**
    * Refreshes this visual view to specified beat.
-   *
    * @param beat desired beat to view song at.
    */
   @Override
@@ -93,10 +99,12 @@ public class VisualView extends JFrame implements IVisualView {
     this.repaint();
   }
 
+  @Override
   public void addMouseListener(MouseListener l) {
     this.pianoPanel.addMouseListener(l);
   }
 
+  @Override
   public Integer getKeyAtXY(int x, int y) {
     return this.pianoPanel.getKeyAtXY(x, y);
   }

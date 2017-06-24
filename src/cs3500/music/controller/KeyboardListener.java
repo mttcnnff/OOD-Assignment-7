@@ -5,7 +5,6 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * This class represents a keyboard listener. It is configurable by the controller that
  * instantiates it.
@@ -22,13 +21,23 @@ public class KeyboardListener implements KeyListener {
   private Map<Integer, Runnable> keyPressedMap;
   private Map<Integer, Runnable> keyReleasedMap;
 
+  /**
+   * Package-private constructor intended only for use by Controllers in this package to make a
+   * Keyboard Listener.
+   */
   KeyboardListener() {
     this.keyTypedMap = new HashMap<>();
     this.keyPressedMap = new HashMap<>();
     this.keyReleasedMap = new HashMap<>();
-
   }
 
+  /**
+   * Public convenience constructor used for testing. Allows for setting custom action maps for
+   * keyListener.
+   * @param keyTypedMap map which provides functionality if a key is typed.
+   * @param keyPressedMap map which provides functionality if a key is pressed.
+   * @param keyReleasedMap map which provides functionality if a key is released.
+   */
   public KeyboardListener(Map<Character, Runnable> keyTypedMap, Map<Integer, Runnable>
           keyPressedMap,
                    Map<Integer, Runnable> keyReleasedMap) {
@@ -65,7 +74,7 @@ public class KeyboardListener implements KeyListener {
   @Override
   public void keyTyped(KeyEvent e) {
     if (keyTypedMap.containsKey(e.getKeyChar())) {
-      keyTypedMap.get(e.getKeyChar()).run();
+      keyTypedMap.get(e.getKeyCode()).run();
     }
   }
 

@@ -5,6 +5,14 @@ package cs3500.music.view;
  */
 public interface IView {
 
+  /**
+   * Initialize operations of the IView.
+   */
   void start();
+
+  /**
+   * @return if IView is playing or not. True if playing, False if not playing.
+   */
+  boolean isPlaying();
 
 }

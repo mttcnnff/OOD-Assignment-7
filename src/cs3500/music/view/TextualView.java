@@ -27,6 +27,11 @@ public class TextualView implements IView {
     System.out.println(this.getText());
   }
 
+  @Override
+  public boolean isPlaying() {
+    return false;
+  }
+
   /**
    * @return song contained in this model to console according to the specs found in Assignment 5.
    */

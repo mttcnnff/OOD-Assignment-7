@@ -9,7 +9,6 @@ import javax.swing.*;
 
 import cs3500.music.model.IPlayerModelReadOnly;
 import cs3500.music.util.Utils;
-import javafx.scene.control.ScrollBar;
 
 /**
  * Class representation of Note Map Panel.
@@ -18,8 +17,6 @@ import javafx.scene.control.ScrollBar;
  */
 public class NoteMapPanel extends JPanel {
 
-  private double VERTICAL_SCALE_FACTOR = .5;
-
   private IPlayerModelReadOnly model;
   private Integer currBeat;
   private BasicStroke lineStroke;
@@ -27,7 +24,6 @@ public class NoteMapPanel extends JPanel {
 
   /**
    * Constructor for Note Map Panel
-   *
    * @param model given model to represent.
    */
   NoteMapPanel(IPlayerModelReadOnly model) {
@@ -43,17 +39,14 @@ public class NoteMapPanel extends JPanel {
   /**
    * Refresh note map panel to current beat.
    * (Move red line to current beat).
-   *
    * @param currBeat current beat view is at.
    */
   void refresh(Integer currBeat) {
     this.currBeat = currBeat;
-//    System.out.println(this.getLocationOnScreen());
   }
 
   /**
    * Paints this panel in the view.
-   *
    * @param g given graphics object.
    */
   @Override
