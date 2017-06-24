@@ -18,6 +18,9 @@ import cs3500.music.mocks.MockMidiDevice;
 import cs3500.music.model.IPlayerModelReadOnly;
 import cs3500.music.notes.INote;
 
+/**
+ * Class representation of Sequencer View for Audible Playback of MIDI song.
+ */
 public class SequencerView implements IView, IAudibleView {
 
   private IPlayerModelReadOnly model;
@@ -27,7 +30,11 @@ public class SequencerView implements IView, IAudibleView {
   private Map<Integer, List<INote>> song;
   private Integer currBeat;
 
-  public SequencerView(IPlayerModelReadOnly model) {
+  /**
+   * Package-private constructor to be used by view factory.
+   * @param model given read only model this view will represent.
+   */
+  SequencerView(IPlayerModelReadOnly model) {
     this.model = model;
     this.song = this.model.getSong();
     try {
@@ -40,6 +47,13 @@ public class SequencerView implements IView, IAudibleView {
     this.currBeat = 0;
   }
 
+  /**
+   * Public convenience constructor for providing specific mock midi device for this sequence
+   * view to log midi messages in case you need them in the future. (Possibly for visualization
+   * or testing).
+   * @param mock given mock midi device for recording midi messages.
+   * @param model given model to represent with this view.
+   */
   public SequencerView(MockMidiDevice mock, IPlayerModelReadOnly model) {
     this.model = model;
     this.song = this.model.getSong();
@@ -108,13 +122,7 @@ public class SequencerView implements IView, IAudibleView {
   @Override
   public int getBeat() {
     long ticksPerBeat = (sequencer.getTickLength()/this.model.getLength());
-    //System.out.println("Current tick pos: " + this.sequencer.getTickPosition());
-
-    //System.out.println("Ticks per beat: " + String.valueOf(ticksPerBeat));
-    int beat = (int)(this.sequencer.getTickPosition()/ticksPerBeat);
-    //System.out.println("Beat got: " + beat);
-    return beat;
-
+    return (int)(this.sequencer.getTickPosition()/ticksPerBeat);
   }
 
   @Override
@@ -127,7 +135,9 @@ public class SequencerView implements IView, IAudibleView {
     return this.sequencer.isRunning();
   }
 
-
+  /**
+   * Method to build track from model into sequencer.
+   */
   private void buildTrack() {
     this.sequence.deleteTrack(this.track);
     this.track = this.sequence.createTrack();
@@ -156,9 +166,6 @@ public class SequencerView implements IView, IAudibleView {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    System.out.println("Ticks: " + sequencer.getTickLength());
-    System.out.println("Beats: " + this.model.getLength());
-    System.out.println((sequencer.getTickLength()/this.model.getLength()) + " Ticks per Beat");
     sequencer.setTempoInMPQ(this.model.getTempo());
   }
 }

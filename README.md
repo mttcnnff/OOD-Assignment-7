@@ -6,7 +6,6 @@ controller to our model, as well as file read-in functionality. Given a properly
 document a model will be able to automatically read-in the specified contents into a full song. 
 The implementation details are specified below.
 
-
 ## The Model
 
 #### Interface
@@ -44,12 +43,63 @@ functionality including adding a note, removing a note, editing a note, song con
  presses the left or right arrows the view will move back or forward one beat, respectively.
 
 ##### Textual View
-A console output of the music showing the notes played in the piece from lowest to highest in the
+ A console output of the music showing the notes played in the piece from lowest to highest in the
  left to right direction at the top. Each beat is denoted at the beginning of each row and is 
  padded to be right justified. Finally, the actual music is noted so that "X" indicates the head 
  of a note and a "|" indicates a sustained note.
  
-##### Audible View
-A MIDI output of the song. There is no visual portion of this view, when it is made visible it 
-will automatically play the song through the computer's midi system. The program will close 
-immediately after playing.
+##### Sequencer View
+ A MIDI output of the song. There is no visual portion of this view, when it is made visible it 
+ will automatically play the song through the computer's midi system. The program will close 
+ immediately after playing.
+
+##### Composite View
+ A hybrid view of a visual view and a sequencer view. Allows a user to simultaneously see and 
+ hear the song. Uses a fully synced controller.
+
+
+## The Controller
+
+#### Interface
+ The Controllers in this project have one available interface, IController. IController offers two
+ main functions. One to set the view, usually called immediately after construction and another 
+ to start the operation of a controller.
+
+#### Implementation
+##### Basic Controller
+ An extremely basic controller with essentially no functionality. All it is able to do is start a 
+ view and then the program ends. Used for static views such as Textual View or Sequencer View.
+
+##### Visual Controller
+ A controller to be used with visual views to control tracking of song view. Allows user to move 
+ beat up and down in view only. Intended for use with Visual View.
+
+ *Controls*
+ 1. Left Key: Increments beat down by one.
+ 2. Right Key: Increments beat up by one.
+
+##### Synced Controller
+ A fully operational controller which provides user functionality to move beat in GUI up and down,
+ jump to the beginning or end of a song, pause or play song, and add notes to the song by clicking
+ the corresponding key on the piano. Intended for use with the Composite View.
+
+ *Controls*
+ 1. Left Key: Increments beat down by one.
+ 2. Right Key: Increments beat up by one.
+ 3. Home Key: Jumps current beat to the beginning of the song.
+ 4. End Key: Jumps current beat to the end of the song.
+ 5. Space Bar: Toggle play/pause of song.
+ 6. Left Click: Adds note you clicked on piano to song at current beat and advances song by one 
+ beat.
+
+##### Event Listeners
+ The controllers use several event listeners to handle control input and sequencing. A keyboard 
+ listener is used to listen for keyboard inputs on visual views, a mouse listener is used to 
+ listen for mouse inputs on visual views, and a meta event listener is used to listen for meta 
+ events from a sequencer.
+ 
+ # Design Changes
+ In this project I changed a few things. First I changed the implementation of the MIDI View to 
+ use a sequencer instead of a receiver and renamed the class to Sequencer View. In addition I 
+ made several controllers instead of just one to have different functionality for different views.
+ 

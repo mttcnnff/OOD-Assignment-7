@@ -20,28 +20,18 @@ public class MusicEditor {
    *             that order.
    */
   public static void main(String[] args) {
-    IPlayerModel model = new PlayerModel(4);
-//    if (args.length != 2) {
-//      System.out.println("Wrong number of arguments. Proper argument format: [filename.txt] " +
-//              "[desired view]");
-//      return;
-//    }
-//    model.readInSong(args[0]);
-//    VisualController controller = new VisualController(model);
-//    IView consoleView = ViewFactory.makeView(args[1], new PlayerModelReadOnly(model));
-//    controller.setView(consoleView);
-//    consoleView.makeVisible();
 
-    model.readInSong("mary-little-lamb.txt");
-    IController controller = ControllerFactory.makeController("visual", model);
-    IView consoleView = ViewFactory.makeView("visual", new PlayerModelReadOnly(model));
+    if (args.length != 2) {
+      System.out.println("Wrong number of arguments. Proper argument format: [filename.txt] " +
+              "[desired view]");
+      return;
+    }
+
+    IPlayerModel model = new PlayerModel(4);
+    model.readInSong(args[0]);
+    IController controller = ControllerFactory.makeController(args[1], model);
+    IView consoleView = ViewFactory.makeView(args[1], new PlayerModelReadOnly(model));
     controller.setView(consoleView);
     consoleView.start();
-
-//    SequencerView seqView = new SequencerView(new PlayerModelReadOnly(model));
-//    seqView.start();
-
-//    controller.setView(consoleView);
-//    controller.start();
   }
 }

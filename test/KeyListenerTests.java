@@ -11,11 +11,15 @@ import cs3500.music.controller.KeyboardListener;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Testing class for testing KeyListener.
+ */
 public class KeyListenerTests {
 
   private ArrayList<Integer> keyLog;
   private KeyboardListener kbd;
 
+  //Tests that key listener calls proper methods when commands are sent to it.
   @Test
   public void testKeyListener() {
     this.initKeyListener();
@@ -31,10 +35,12 @@ public class KeyListenerTests {
     }
   }
 
+  //Method to make fake key event.
   private KeyEvent makeBSKeyEvent(Integer key) {
     return new KeyEvent(new Component(){}, KeyEvent.KEY_PRESSED, 0, 0, key, 'a');
   }
 
+  //Initializes key listener for testing.
   private void initKeyListener() {
 
     this.keyLog = new ArrayList<>();
@@ -55,6 +61,5 @@ public class KeyListenerTests {
             this.keyLog.add(KeyEvent.VK_SPACE));
 
     this.kbd = new KeyboardListener(keyTypes, keyPresses, keyReleases);
-
   }
 }

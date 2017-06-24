@@ -11,11 +11,15 @@ import cs3500.music.controller.ClickListener;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Testing class for testing mouse listener.
+ */
 public class MouseListenerTests {
 
   private ArrayList<MouseEvent> clickLog;
   private ClickListener clk;
 
+  //Tests click listener behaves correctly when provided with various click events.
   @Test
   public void testClickListener() {
     this.initClickListener();
@@ -31,11 +35,13 @@ public class MouseListenerTests {
     }
   }
 
+  //Method to make fake Mouse Event.
   private MouseEvent makeBSMouseEvent(int x, int y) {
     return new MouseEvent(new Component(){}, MouseEvent.BUTTON1, 0, 0, x, y, 1, false,
             MouseEvent.BUTTON1);
   }
 
+  //Method to initialize click listener for testing.
   private void initClickListener() {
     this.clickLog = new ArrayList<>();
 

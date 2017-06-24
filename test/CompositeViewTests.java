@@ -9,10 +9,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Testing class for Composite View.
+ */
 public class CompositeViewTests {
 
-  CompositeView testView;
-  IPlayerModel model;
+  private CompositeView testView;
 
   //Tests that view is not playing when it opens and starts at beat 0
   @Test
@@ -111,11 +113,10 @@ public class CompositeViewTests {
     assertEquals(null, testView.getKeyAtXY(3000, 3000));
   }
 
+  //Method to initialize test
   private void initTest() {
-    this.model = new PlayerModel(4);
-    this.model.readInSong("mary-little-lamb.txt");
+    IPlayerModel model = new PlayerModel(4);
+    model.readInSong("mary-little-lamb.txt");
     testView = new CompositeView(new PlayerModelReadOnly(model));
   }
-
-
 }
