@@ -2,6 +2,7 @@ package cs3500.music.controller;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -20,6 +21,21 @@ public class KeyboardListener implements KeyListener {
   private Map<Character, Runnable> keyTypedMap;
   private Map<Integer, Runnable> keyPressedMap;
   private Map<Integer, Runnable> keyReleasedMap;
+
+  KeyboardListener() {
+    this.keyTypedMap = new HashMap<>();
+    this.keyPressedMap = new HashMap<>();
+    this.keyReleasedMap = new HashMap<>();
+
+  }
+
+  public KeyboardListener(Map<Character, Runnable> keyTypedMap, Map<Integer, Runnable>
+          keyPressedMap,
+                   Map<Integer, Runnable> keyReleasedMap) {
+    this.keyTypedMap = keyTypedMap;
+    this.keyPressedMap = keyPressedMap;
+    this.keyReleasedMap = keyReleasedMap;
+  }
 
   /**
    * Set the map for key typed events. Key typed events in Java Swing are characters

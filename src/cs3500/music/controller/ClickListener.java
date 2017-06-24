@@ -1,29 +1,31 @@
 package cs3500.music.controller;
 
-
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class ClickListener implements MouseListener {
 
-  private Map<Integer, Runnable> mouseClickedMap;
-  private SyncedController controller;
+  private Map<Integer, Consumer<MouseEvent>> mouseConsumerMap;
 
-  ClickListener(SyncedController controller) {
-    this.controller = controller;
+  void setMouseConsumerMap(Map<Integer, Consumer<MouseEvent>> consumerMap) {
+    this.mouseConsumerMap = consumerMap;
   }
 
-  void setMouseClickedMap(Map<Integer, Runnable> map) {
-    this.mouseClickedMap = map;
+  ClickListener() {
+    this.mouseConsumerMap = new HashMap<>();
+  }
+
+  public ClickListener(Map<Integer, Consumer<MouseEvent>> mouseConsumerMap) {
+    this.mouseConsumerMap = mouseConsumerMap;
   }
 
   @Override
   public void mouseClicked(MouseEvent e) {
-    this.controller.setClickXY(e.getX(), e.getY());
-    if (mouseClickedMap.containsKey(e.getButton())) {
-      mouseClickedMap.get(e.getButton()).run();
+    if (mouseConsumerMap.containsKey(e.getButton())) {
+      mouseConsumerMap.get(e.getButton()).accept(e);
     }
   }
 

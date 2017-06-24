@@ -38,7 +38,6 @@ public class VisualController implements IController {
     view.refresh(currentBeat);
   };
 
-
   /**
    * Constructor for controller.
    *
@@ -77,10 +76,6 @@ public class VisualController implements IController {
    */
   private void moveLeft() {
       new Thread(this.moveLeft).start();
-  }
-
-  private void leftMouseClick() {
-    System.out.println("Left Mouse Clicked.");
   }
 
   private void jumpToStart() {
